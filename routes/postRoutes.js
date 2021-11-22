@@ -1,5 +1,6 @@
 const app = require("express");
 const router = app.Router();
+const auth = require("../utils/auth");
 
 var multer = require("multer");
 var storage = multer.diskStorage({
@@ -21,10 +22,10 @@ const {
   viewPost,
 } = require("../controllers/PostController");
 
-router.post("/addPost", upload.single("myField"), addPost);
-router.post("/addComment", addComment);
-router.post("/viewComment", viewComment);
-router.post("/likePost", likePost);
-router.get("/viewPost", viewPost);
+router.post("/addPost", auth, upload.single("myField"), addPost);
+router.post("/addComment", auth, addComment);
+router.post("/viewComment", auth, viewComment);
+router.post("/likePost", auth, likePost);
+router.get("/viewPost", auth, viewPost);
 
 module.exports = router;

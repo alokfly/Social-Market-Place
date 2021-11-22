@@ -3,13 +3,10 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 module.exports.addGroup = async (req, res) => {
-  const authHeaders = req.headers.authorization;
-  const token = authHeaders.split("Bearer ")[1];
   const { group_name, boundary, privacy } = req.body;
   try {
-    const decode = jwt.verify(token, process.env.SECRET);
     const addGroup = await Group.create({
-      userId: decode.user._id,
+      userId: req.user,
       group_name,
       boundary,
       privacy,

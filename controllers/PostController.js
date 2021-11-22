@@ -4,11 +4,12 @@ const Story = require("../models/Story");
 var ObjectId = require("mongodb").ObjectID;
 
 module.exports.addPost = async (req, res) => {
-  const { userId, title, description, tags } = req.body;
+  const { title, description, tags } = req.body;
   const profileImage = req.file ? req.file.filename : null;
+  console.log(req.user);
   try {
     const addPost = await Post.create({
-      userId,
+      userId: req.user,
       title,
       description,
       tags,
@@ -30,10 +31,10 @@ module.exports.viewPost = async (req, res) => {
 };
 
 module.exports.addComment = async (req, res) => {
-  const { userId, postId, comment } = req.body;
+  const { postId, comment } = req.body;
   try {
     const addComment = await Comment.create({
-      userId,
+      userId: req.user,
       postId,
       comment,
       date: new Date(),
@@ -59,7 +60,7 @@ module.exports.likePost = async (req, res) => {
   await Post.findByIdAndUpdate(
     { _id: ObjectId(req.body.postId) },
     {
-      $push: { like: req.body.userId },
+      $push: { like: req.user },
     },
     {
       new: true,
