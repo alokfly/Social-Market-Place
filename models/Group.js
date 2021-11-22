@@ -1,6 +1,11 @@
 const { model, Schema } = require("mongoose");
 const groupSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     group_name: {
       type: String,
       required: true,
