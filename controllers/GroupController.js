@@ -39,7 +39,11 @@ module.exports.joinGroup = async (req, res) => {
 };
 
 module.exports.viewJoinedGroup = async (req, res) => {
-  const viewUserJoinedGroup = await User.findOne({ _id: ObjectId(req.user) });
+  const viewUserJoinedGroup = await User.findOne({
+    _id: ObjectId(req.user),
+  })
+    .populate("groudJoined", "group_name")
+    .exec();
   res.status(200).json(viewUserJoinedGroup);
 };
 
