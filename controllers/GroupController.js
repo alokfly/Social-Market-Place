@@ -1,5 +1,7 @@
 const Group = require("../models/Group");
+const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+var ObjectId = require("mongodb").ObjectID;
 require("dotenv").config();
 
 module.exports.addGroup = async (req, res) => {
@@ -15,6 +17,30 @@ module.exports.addGroup = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+module.exports.joinGroup = async (req, res) => {
+  await User.findByIdAndUpdate(
+    { _id: ObjectId(req.user) },
+    {
+      $push: { groudJoined: req.body.groupId },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      console;
+      return res.status(422).json(err);
+    } else {
+      res.json({ msg: "group joined successfully", result });
+    }
+  });
+};
+
+module.exports.viewJoinedGroup = async (req, res) => {
+  const viewUserJoinedGroup = await User.findOne({ _id: ObjectId(req.user) });
+  res.status(200).json(viewUserJoinedGroup);
 };
 
 module.exports.home = async (req, res) => {

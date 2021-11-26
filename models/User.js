@@ -27,6 +27,12 @@ const userSchema = new Schema(
     image: {
       type: String,
     },
+    groudJoined: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "group",
+      },
+    ],
   },
   { timestamps: true }
 );

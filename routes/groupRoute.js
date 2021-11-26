@@ -2,9 +2,16 @@ const app = require("express");
 const router = app.Router();
 const auth = require("../utils/auth");
 
-const { addGroup, home } = require("../controllers/GroupController");
+const {
+  addGroup,
+  joinGroup,
+  viewJoinedGroup,
+  home,
+} = require("../controllers/GroupController");
 
 router.post("/addGroup", auth, addGroup);
+router.post("/joinGroup", auth, joinGroup);
+router.get("/viewJoinedGroup", auth, viewJoinedGroup);
 router.get("/home", auth, home);
 
 module.exports = router;

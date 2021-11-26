@@ -5,6 +5,7 @@ module.exports.addEvent = async (req, res) => {
   const eventImage = req.file ? req.file.path : null;
   try {
     const addEvent = await Event.create({
+      userId: req.user,
       title,
       event_date,
       event_time,

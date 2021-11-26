@@ -2,6 +2,11 @@ const { model, Schema } = require("mongoose");
 
 const businessPageSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     business_name: {
       type: String,
       required: true,
@@ -27,7 +32,8 @@ const businessPageSchema = new Schema(
       required: true,
     },
     privacy: {
-      type: Boolean,
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }
