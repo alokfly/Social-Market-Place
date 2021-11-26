@@ -1,11 +1,11 @@
 const Story = require("../models/Story");
 
 module.exports.addStory = async (req, res) => {
-  const { userId } = req.body;
-  const storyImage = req.file ? req.file.filename : null;
+  const storyImage = req.file ? req.file.path : null;
+  console.log(req.user);
   try {
     const addStory = await Story.create({
-      userId,
+      userId: req.user,
       image: storyImage,
     });
     res.status(200).json({ msg: "Story added successfully" });
@@ -16,7 +16,7 @@ module.exports.addStory = async (req, res) => {
 
 module.exports.viewStories = async (req, res) => {
   try {
-    const viewStories = await Story.find({});
+    const viewStories = await Story.find({ userId: req.user._id });
     res.status(200).json(viewStories);
   } catch (error) {
     console.log(error);

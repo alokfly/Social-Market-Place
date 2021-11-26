@@ -5,7 +5,7 @@ const auth = require("../utils/auth");
 var multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/StoryImages");
+    cb(null, "public/ProductImages");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "_" + file.originalname);
@@ -14,9 +14,8 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-const { addStory, viewStories } = require("../controllers/StoryController");
+const { addProduct } = require("../controllers/ProductController");
 
-router.post("/addStory", auth, upload.single("myField"), addStory);
-router.get("/viewStories", auth, viewStories);
+router.post("/addProduct", auth, upload.single("myField"), addProduct);
 
 module.exports = router;
