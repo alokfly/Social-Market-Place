@@ -29,3 +29,12 @@ module.exports.addProduct = async (req, res) => {
     console.log(error);
   }
 };
+
+module.exports.viewProduct = async (req, res) => {
+  try {
+    const viewProduct = await Product.find({});
+    res.status(200).json(viewProduct);
+  } catch (error) {
+    console.log(error);
+  }
+};
