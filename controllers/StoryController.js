@@ -1,7 +1,7 @@
 const Story = require("../models/Story");
 
 module.exports.addStory = async (req, res) => {
-  const storyImage = req.file ? req.file.filename : null;
+  const storyImage = req.file ? req.file.path : null;
   try {
     const addStory = await Story.create({
       userId: req.user,
