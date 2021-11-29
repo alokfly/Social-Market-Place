@@ -5,7 +5,7 @@ var ObjectId = require("mongodb").ObjectID;
 
 module.exports.addPost = async (req, res) => {
   const { title, description, tags } = req.body;
-  const profileImage = req.file ? req.file.path : null;
+  const profileImage = req.file ? req.file.filename : null;
   console.log(req.user);
   try {
     const addPost = await Post.create({

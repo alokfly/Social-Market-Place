@@ -1,7 +1,7 @@
 const Product = require("../models/Product");
 
 module.exports.addProduct = async (req, res) => {
-  const productImage = req.file ? req.file.path : null;
+  const productImage = req.file ? req.file.filename : null;
   const {
     productName,
     price,
