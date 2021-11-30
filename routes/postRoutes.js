@@ -20,6 +20,7 @@ const {
   viewComment,
   likePost,
   viewPost,
+  fetchNotification,
 } = require("../controllers/PostController");
 
 router.post("/addPost", auth, upload.single("myField"), addPost);
@@ -27,5 +28,6 @@ router.post("/addComment", auth, addComment);
 router.post("/viewComment", auth, viewComment);
 router.post("/likePost", auth, likePost);
 router.get("/viewPost/:page", auth, viewPost);
+router.get("/fetchNotification", auth, fetchNotification);
 
 module.exports = router;
