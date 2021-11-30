@@ -12,6 +12,7 @@ const conversationRouter = require("./routes/conversationRoutes");
 const messageRouter = require("./routes/messageRoutes");
 const productRouter = require("./routes/productRoutes");
 const businessPageRouter = require("./routes/businessPageRoutes");
+const categoryRouter = require("./routes/categoryRoutes");
 
 require("dotenv").config();
 const app = express();
@@ -44,6 +45,7 @@ app.use("/", conversationRouter);
 app.use("/", messageRouter);
 app.use("/", productRouter);
 app.use("/", businessPageRouter);
+app.use("/", categoryRouter);
 
 const PORT = process.env.PORT || 5000;
 
