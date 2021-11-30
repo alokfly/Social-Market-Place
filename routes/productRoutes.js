@@ -17,6 +17,6 @@ var upload = multer({ storage: storage });
 const { addProduct, viewProduct } = require("../controllers/ProductController");
 
 router.post("/addProduct", auth, upload.single("myField"), addProduct);
-router.get("/viewProduct", auth, viewProduct);
+router.get("/viewProduct/:page", auth, viewProduct);
 
 module.exports = router;

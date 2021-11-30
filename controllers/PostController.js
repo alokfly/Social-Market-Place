@@ -22,8 +22,16 @@ module.exports.addPost = async (req, res) => {
 };
 
 module.exports.viewPost = async (req, res) => {
+  const page = req.params.page;
+  const perPage = 3;
+  const skip = (page - 1) * perPage;
   try {
-    const viewPost = await Post.find({}).populate("userId", "name").exec();
+    const viewPost = await Post.find({})
+      .populate("userId", "name")
+      .skip(skip)
+      .limit(perPage)
+      .sort({ updatedAt: -1 })
+      .exec();
     res.status(200).json({ viewPost });
   } catch (error) {
     console.log(error);

@@ -31,8 +31,14 @@ module.exports.addProduct = async (req, res) => {
 };
 
 module.exports.viewProduct = async (req, res) => {
+  const page = req.params.page;
+  const perPage = 3;
+  const skip = (page - 1) * perPage;
   try {
-    const viewProduct = await Product.find({});
+    const viewProduct = await Product.find({})
+      .skip(skip)
+      .limit(perPage)
+      .sort({ updatedAt: -1 });
     res.status(200).json(viewProduct);
   } catch (error) {
     console.log(error);
