@@ -41,31 +41,33 @@ module.exports.viewPost = async (req, res) => {
 };
 
 module.exports.addComment = async (req, res) => {
-  const { postId, comment } = req.body;
-  const userDetail = await User.findOne({ _id: ObjectId(req.user) });
-  try {
-    const addComment = await Comment.create({
-      userId: req.user,
-      postId,
-      comment,
-      date: new Date(),
+  const comment = {
+    text: req.body.text,
+    postedBy: req.user,
+  };
+  await Post.findByIdAndUpdate(
+    { _id: ObjectId(req.body.postId) },
+    {
+      $push: { comments: comment },
+    },
+    {
+      new: true,
+    }
+  )
+    .populate("comments.postedBy", "_id name")
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
     });
-    const postDetail = await Post.findOne({ _id: ObjectId(postId) });
-    const addCommentNotification = await Notification.create({
-      notificationUserId: postDetail.userId,
-      notificationSenderId: req.user,
-      text: `${userDetail.name} commented on your post`,
-    });
-    res.status(200).json({ msg: "Comment sucessfully added" });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 module.exports.viewComment = async (req, res) => {
   try {
-    const comment = await Comment.find({ postId: req.body.postId })
-      .populate("userId", "name")
+    const comment = await Post.findOne({ _id: req.body.postId })
+      .populate("comments.postedBy", "_id name")
       .exec();
     res.status(200).json({ comment });
   } catch (error) {
@@ -103,6 +105,13 @@ module.exports.fetchNotification = async (req, res) => {
   try {
     const fetchNoti = await Notification.find({ notificationUserId: req.user });
     res.status(200).json(fetchNoti);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.countComments = async (req, res) => {
+  try {
   } catch (error) {
     console.log(error);
   }
