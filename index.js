@@ -13,6 +13,7 @@ const messageRouter = require("./routes/messageRoutes");
 const productRouter = require("./routes/productRoutes");
 const businessPageRouter = require("./routes/businessPageRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
+const adminRouter = require("./routes/adminRoutes");
 
 require("dotenv").config();
 const app = express();
@@ -46,6 +47,7 @@ app.use("/", messageRouter);
 app.use("/", productRouter);
 app.use("/", businessPageRouter);
 app.use("/", categoryRouter);
+app.use("/", adminRouter);
 
 const PORT = process.env.PORT || 5000;
 
