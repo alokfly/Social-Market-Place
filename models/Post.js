@@ -24,7 +24,7 @@ const postSchema = new Schema(
         ref: "user",
       },
     ],
-    comments: [
+    comment: [
       {
         text: String,
         postedBy: {

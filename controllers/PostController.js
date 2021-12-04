@@ -48,7 +48,7 @@ module.exports.addComment = async (req, res) => {
   await Post.findByIdAndUpdate(
     { _id: ObjectId(req.body.postId) },
     {
-      $push: { comments: comment },
+      $push: { comment: comment },
     },
     {
       new: true,
