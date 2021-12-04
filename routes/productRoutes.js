@@ -14,9 +14,18 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-const { addProduct, viewProduct } = require("../controllers/ProductController");
+const {
+  addProduct,
+  viewProduct,
+  addReport,
+  viewReports,
+  viewParticularReport,
+} = require("../controllers/ProductController");
 
 router.post("/addProduct", auth, upload.single("myField"), addProduct);
 router.get("/viewProduct/:page", auth, viewProduct);
+router.post("/addReport", auth, addReport);
+router.get("/viewReports", auth, viewReports);
+router.get("/viewParticularReport/:id", auth, viewParticularReport);
 
 module.exports = router;

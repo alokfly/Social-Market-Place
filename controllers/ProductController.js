@@ -1,4 +1,7 @@
 const Product = require("../models/Product");
+const Report = require("../models/Report");
+const BusinessPage = require("../models/BusinessPage");
+var ObjectId = require("mongodb").ObjectID;
 
 module.exports.addProduct = async (req, res) => {
   const productImage = req.file ? req.file.path : null;
@@ -40,6 +43,65 @@ module.exports.viewProduct = async (req, res) => {
       .limit(perPage)
       .sort({ updatedAt: -1 });
     res.status(200).json(viewProduct);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.addReport = async (req, res) => {
+  const { productId, pageId, type, time, description } = req.body;
+  try {
+    if (productId != null) {
+      const getProductDetail = await Product.findOne({
+        _id: ObjectId(req.body.productId),
+      });
+      const userId = getProductDetail.userId;
+      const addReport = await Report.create({
+        productId,
+        userId,
+        type,
+        time,
+        description,
+      });
+      return res.status(200).json({ msg: "Success" });
+    } else {
+      const getProductDetail = await BusinessPage.findOne({
+        _id: ObjectId(req.body.pageId),
+      });
+      const userId = getProductDetail.userId;
+      const addReport = await Report.create({
+        pageId,
+        userId,
+        type,
+        time,
+        description,
+      });
+      return res.status(200).json({ msg: "Success" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.viewReports = async (req, res) => {
+  try {
+    const report = await Report.find()
+      .populate("productId", "productName")
+      .populate("pageId", "business_name")
+      .populate("userId", "name")
+      .exec();
+    res.status(200).json({ report });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.viewParticularReport = async (req, res) => {
+  try {
+    const viewReport = await Report.findOne({
+      _id: ObjectId(req.params.id),
+    });
+    return res.status(200).json(viewReport);
   } catch (error) {
     console.log(error);
   }

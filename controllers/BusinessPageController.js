@@ -26,3 +26,12 @@ module.exports.addBusinessPage = async (req, res) => {
     console.log(error);
   }
 };
+
+module.exports.viewBusinessPage = async (req, res) => {
+  try {
+    const viewBusinessPage = await BusinessPage.find({});
+    res.status(200).json(viewBusinessPage);
+  } catch (error) {
+    console.log(error);
+  }
+};
