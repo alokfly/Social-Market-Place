@@ -41,13 +41,12 @@ module.exports.viewPost = async (req, res) => {
 };
 
 module.exports.addComment = async (req, res) => {
-  const { text, postId } = req.body;
   const comment = {
-    text: text,
+    text: req.body.text,
     postedBy: req.user,
   };
   await Post.findByIdAndUpdate(
-    { _id: ObjectId(postId) },
+    { _id: ObjectId(req.body.postId) },
     {
       $push: { comments: comment },
     },
@@ -58,9 +57,9 @@ module.exports.addComment = async (req, res) => {
     .populate("comments.postedBy", "_id name")
     .exec((err, result) => {
       if (err) {
+        console.log(err);
         return res.status(422).json({ error: err });
       } else {
-        console.log(result);
         res.json(result);
       }
     });

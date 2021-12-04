@@ -27,10 +27,7 @@ const postSchema = new Schema(
     comments: [
       {
         text: String,
-        postedBy: {
-          type: Schema.Types.ObjectId,
-          ref: "user",
-        },
+        postedBy: { type: Schema.Types.ObjectId, ref: "user" },
       },
     ],
     image: {
