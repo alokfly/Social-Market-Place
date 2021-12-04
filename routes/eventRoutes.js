@@ -14,9 +14,14 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-const { addEvent, viewEvent } = require("../controllers/EventController");
+const {
+  addEvent,
+  viewEvent,
+  viewEventAdmin,
+} = require("../controllers/EventController");
 
 router.post("/addEvent", auth, upload.single("myField"), addEvent);
 router.get("/viewEvent", auth, viewEvent);
+router.get("/viewEventAdmin", viewEventAdmin);
 
 module.exports = router;

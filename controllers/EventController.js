@@ -25,3 +25,12 @@ module.exports.viewEvent = async (req, res) => {
     console.log(error);
   }
 };
+
+module.exports.viewEventAdmin = async (req, res) => {
+  try {
+    const viewEvent = await Event.find({});
+    return res.status(200).json(viewEvent);
+  } catch (error) {
+    console.log(error);
+  }
+};
