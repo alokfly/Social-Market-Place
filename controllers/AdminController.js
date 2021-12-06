@@ -49,8 +49,9 @@ module.exports.login = async (req, res) => {
     if (user) {
       const matched = await bcrypt.compare(password, user.password);
       if (matched) {
+        const token = createToken(user);
         const { _id } = user;
-        updateSuccessCode = await Admin.findByIdAndUpdate(_id, {
+        updateSuccessCode = await Admin.findByIdAndUpdate(_id, token, {
           sucessCode: 1,
         });
         const upadtedUser = await Admin.findOne({ email });
