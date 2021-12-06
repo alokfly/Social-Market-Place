@@ -51,11 +51,11 @@ module.exports.login = async (req, res) => {
       if (matched) {
         const token = createToken(user);
         const { _id } = user;
-        updateSuccessCode = await Admin.findByIdAndUpdate(_id, token, {
+        updateSuccessCode = await Admin.findByIdAndUpdate(_id, {
           sucessCode: 1,
         });
         const upadtedUser = await Admin.findOne({ email });
-        res.send({ msg: "Login Successfull", response: upadtedUser });
+        res.send({ msg: "Login Successfull", token, response: upadtedUser });
       } else {
         return res
           .status(401)
