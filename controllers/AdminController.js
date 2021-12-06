@@ -31,7 +31,10 @@ module.exports.register = async (req, res) => {
         password: hash,
         userType,
       });
-      return res.status(200).json({ msg: "Your account has been created" });
+      const token = createToken(user);
+      return res
+        .status(200)
+        .json({ msg: "Your account has been created", token });
     } catch (error) {
       return res.status(500).json({ errors: error });
     }

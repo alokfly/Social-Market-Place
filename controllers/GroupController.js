@@ -19,6 +19,15 @@ module.exports.addGroup = async (req, res) => {
   }
 };
 
+module.exports.viewAllGroup = async (req, res) => {
+  try {
+    const viewAllGroup = await Group.find({});
+    return res.status(200).json(viewUserJoinedGroup);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports.joinGroup = async (req, res) => {
   await User.findByIdAndUpdate(
     { _id: ObjectId(req.user) },

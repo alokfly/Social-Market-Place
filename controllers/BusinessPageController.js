@@ -11,7 +11,7 @@ module.exports.addBusinessPage = async (req, res) => {
     privacy,
   } = req.body;
   try {
-    const addBusinessPage = BusinessPage.create({
+    const addBusinessPage = await BusinessPage.create({
       userId: req.user,
       business_name,
       address,
@@ -21,7 +21,9 @@ module.exports.addBusinessPage = async (req, res) => {
       business_category,
       privacy,
     });
-    res.status(200).json({ msg: "Business Page added successfully" });
+    res
+      .status(200)
+      .json({ msg: "Business Page added successfully", addBusinessPage });
   } catch (error) {
     console.log(error);
   }
