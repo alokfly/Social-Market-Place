@@ -8,7 +8,7 @@ var storage = multer.diskStorage({
     cb(null, "public/PostImages");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "_" + file.originalname);
+    cb(null, "post" + Date.now() + "_" + file.originalname);
   },
 });
 

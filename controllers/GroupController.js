@@ -22,7 +22,7 @@ module.exports.addGroup = async (req, res) => {
 module.exports.viewAllGroup = async (req, res) => {
   try {
     const viewAllGroup = await Group.find({});
-    return res.status(200).json(viewUserJoinedGroup);
+    return res.status(200).json(viewAllGroup);
   } catch (error) {
     console.log(error);
   }

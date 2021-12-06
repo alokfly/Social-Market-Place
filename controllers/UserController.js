@@ -162,3 +162,21 @@ const mailer = (email, otp) => {
     }
   });
 };
+
+module.exports.viewAllUser = async (req, res) => {
+  try {
+    const viewAllUser = await User.find({});
+    return res.status(200).json(viewAllUser);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.viewParticularUser = async (req, res) => {
+  try {
+    const view = await User.findOne({ _id: req.params.id });
+    return res.status(200).json(view);
+  } catch (error) {
+    console.log(error);
+  }
+};
