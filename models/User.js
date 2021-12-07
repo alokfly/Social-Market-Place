@@ -27,6 +27,30 @@ const userSchema = new Schema(
     image: {
       type: String,
     },
+    warning_notification: [
+      {
+        comments: String,
+      },
+    ],
+    like_notification: [
+      {
+        comments: String,
+        postIdBy: { type: Schema.Types.ObjectId, ref: "user" },
+        postId: { type: Schema.Types.ObjectId, ref: "post" },
+      },
+    ],
+    comment_notification: [
+      {
+        comments: String,
+        postIdBy: { type: Schema.Types.ObjectId, ref: "user" },
+        postId: { type: Schema.Types.ObjectId, ref: "post" },
+      },
+    ],
+    follow_notification: [
+      {
+        type: String,
+      },
+    ],
     groudJoined: [
       {
         type: Schema.Types.ObjectId,

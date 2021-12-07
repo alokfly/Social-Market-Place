@@ -21,6 +21,8 @@ const {
   likePost,
   viewPost,
   fetchNotification,
+  addNotification,
+  getNotification,
 } = require("../controllers/PostController");
 
 router.post("/addPost", auth, upload.single("myField"), addPost);
@@ -29,5 +31,7 @@ router.post("/viewComment", auth, viewComment);
 router.post("/likePost", auth, likePost);
 router.get("/viewPost/:page", auth, viewPost);
 router.get("/fetchNotification", auth, fetchNotification);
+router.post("/addNotification", auth, addNotification);
+router.get("/getNotification", auth, getNotification);
 
 module.exports = router;
