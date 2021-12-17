@@ -18,6 +18,12 @@ const groupSchema = new Schema(
       type: String,
       required: true,
     },
+    userJoinedGroup: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
     status: {
       type: Number,
       required: true,

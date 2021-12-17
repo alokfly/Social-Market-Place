@@ -40,6 +40,58 @@ module.exports.viewPost = async (req, res) => {
   }
 };
 
+module.exports.hidePost = async (req, res) => {
+  const { postId } = req.body;
+  await Post.findByIdAndUpdate(
+    { _id: ObjectId(postId) },
+    {
+      $push: { postHiddenFromUser: req.user },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      console;
+      return res.status(422).json(err);
+    } else {
+      res.json(result);
+    }
+  });
+};
+
+module.exports.getAllPosts = async (req, res) => {
+  const page = req.params.page;
+  const perPage = 3;
+  const skip = (page - 1) * perPage;
+  try {
+    const getAllPosts = await Post.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "postHiddenFromUser",
+          foreignField: "_id",
+          as: "fromItems",
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $size: "$fromItems" }, 0],
+          },
+        },
+      },
+    ])
+      .skip(skip)
+      .limit(perPage)
+      .sort({ updatedAt: -1 })
+      .exec();
+    return res.status(201).json(getAllPosts);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
 module.exports.addComment = async (req, res) => {
   const comment = {
     text: req.body.text,

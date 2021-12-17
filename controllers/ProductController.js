@@ -44,7 +44,38 @@ module.exports.viewProduct = async (req, res) => {
       .sort({ updatedAt: -1 });
     res.status(200).json(viewProduct);
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.viewProductDetail = async (req, res) => {
+  try {
+    const viewProductById = await Product.findOne({
+      _id: ObjectId(req.params.id),
+    });
+    return res.status(200).json(viewProductById);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.viewProductByCategory = async (req, res) => {
+  try {
+    const viewProductByCategory = await Product.find({
+      category: req.params.category,
+    });
+    return res.status(200).json(viewProductByCategory);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.viewJustListedProduct = async (req, res) => {
+  try {
+    const viewProduct = await Product.find({}).limit(5).sort({ _id: -1 });
+    return res.status(200).json(viewProduct);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
   }
 };
 

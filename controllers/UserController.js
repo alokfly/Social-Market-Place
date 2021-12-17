@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const User = require("../models/User");
 const Otp = require("../models/Otp");
+var ObjectId = require("mongodb").ObjectID;
 
 const createToken = (user) => {
   return jwt.sign({ user }, process.env.SECRET, {
@@ -168,7 +169,7 @@ module.exports.viewAllUser = async (req, res) => {
     const viewAllUser = await User.find({});
     return res.status(200).json(viewAllUser);
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ msg: error.message });
   }
 };
 
@@ -177,6 +178,36 @@ module.exports.viewParticularUser = async (req, res) => {
     const view = await User.findOne({ _id: req.params.id });
     return res.status(200).json(view);
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.viewLoggedInUser = async (req, res) => {
+  try {
+    const viewLoggedInUser = await User.findOne({ _id: req.user._id });
+    return res.status(200).json(viewLoggedInUser);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.editUser = async (req, res) => {
+  const { nickname, bio, mobile, address, email } = req.body;
+  const userImage = req.file ? req.file.path : null;
+  try {
+    const editUser = await User.findByIdAndUpdate(
+      { _id: ObjectId(req.user._id) },
+      {
+        nickname,
+        bio,
+        mobile,
+        address,
+        email,
+        image: userImage,
+      }
+    );
+    return res.status(200).json({ msg: "user successfully edited", editUser });
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
   }
 };

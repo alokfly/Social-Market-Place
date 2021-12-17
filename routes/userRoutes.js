@@ -1,14 +1,14 @@
 const app = require("express");
 const router = app.Router();
 const auth = require("../utils/auth");
-
+const path = require("path");
 var multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/UserImages");
   },
   filename: function (req, file, cb) {
-    cb(null, "user" + Date.now() + "_" + file.originalname);
+    cb(null, "user_" + Date.now() + path.extname(file.originalname));
   },
 });
 
@@ -22,6 +22,8 @@ const {
   changePassword,
   viewAllUser,
   viewParticularUser,
+  viewLoggedInUser,
+  editUser,
 } = require("../controllers/UserController");
 
 router.post(
@@ -33,7 +35,8 @@ router.post(
 router.post("/login", loginValiations, login);
 router.post("/resetPassword/emailSend", emailSend);
 router.post("/changePassword", changePassword);
-
 router.get("/viewAllUser", auth, viewAllUser);
 router.get("/viewParticularUser/:id", auth, viewParticularUser);
+router.get("/viewLoggedInUser", auth, viewLoggedInUser);
+router.patch("/editUser", upload.single("myField"), auth, editUser);
 module.exports = router;

@@ -30,6 +30,12 @@ const postSchema = new Schema(
         postedBy: { type: Schema.Types.ObjectId, ref: "user" },
       },
     ],
+    postHiddenFromUser: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
     image: {
       type: String,
       required: true,

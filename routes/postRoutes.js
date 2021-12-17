@@ -23,11 +23,15 @@ const {
   fetchNotification,
   addNotification,
   getNotification,
+  hidePost,
+  getAllPosts,
 } = require("../controllers/PostController");
 
 router.post("/addPost", auth, upload.single("myField"), addPost);
 router.post("/addComment", auth, addComment);
 router.post("/viewComment", auth, viewComment);
+router.post("/hidePost", auth, hidePost);
+router.get("/getAllPosts/:page", auth, getAllPosts);
 router.post("/likePost", auth, likePost);
 router.get("/viewPost/:page", auth, viewPost);
 router.get("/fetchNotification", auth, fetchNotification);

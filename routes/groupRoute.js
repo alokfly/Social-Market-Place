@@ -7,12 +7,14 @@ const {
   viewAllGroup,
   joinGroup,
   viewJoinedGroup,
+  viewPouplarGroups,
   home,
 } = require("../controllers/GroupController");
 
 router.post("/addGroup", auth, addGroup);
 router.get("/viewAllGroup", auth, viewAllGroup);
 router.post("/joinGroup", auth, joinGroup);
+router.get("/viewPouplarGroups", auth, viewPouplarGroups);
 router.get("/viewJoinedGroup", auth, viewJoinedGroup);
 router.get("/home", auth, home);
 
