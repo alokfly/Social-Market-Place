@@ -8,6 +8,7 @@ const {
   joinGroup,
   viewJoinedGroup,
   viewPouplarGroups,
+  viewGroupNearMe,
   home,
 } = require("../controllers/GroupController");
 
@@ -16,6 +17,7 @@ router.get("/viewAllGroup", auth, viewAllGroup);
 router.post("/joinGroup", auth, joinGroup);
 router.get("/viewPouplarGroups", auth, viewPouplarGroups);
 router.get("/viewJoinedGroup", auth, viewJoinedGroup);
+router.post("/viewGroupNearMe", auth, viewGroupNearMe);
 router.get("/home", auth, home);
 
 module.exports = router;

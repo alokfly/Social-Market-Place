@@ -29,6 +29,10 @@ const groupSchema = new Schema(
       required: true,
       default: 0,
     },
+    location: {
+      type: Object,
+      required: true,
+    },
   },
   { timestamps: true }
 );

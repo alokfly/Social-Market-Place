@@ -60,6 +60,10 @@ const userSchema = new Schema(
         ref: "group",
       },
     ],
+    location: {
+      type: Object,
+      required: true,
+    },
   },
   { timestamps: true }
 );

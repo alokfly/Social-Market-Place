@@ -41,7 +41,8 @@ module.exports.viewProduct = async (req, res) => {
     const viewProduct = await Product.find({})
       .skip(skip)
       .limit(perPage)
-      .sort({ updatedAt: -1 });
+      .sort({ updatedAt: -1 })
+      .populate("userId", "name");
     res.status(200).json(viewProduct);
   } catch (error) {
     return res.status(500).json({ msg: error.message });

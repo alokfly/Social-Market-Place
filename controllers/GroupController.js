@@ -5,13 +5,14 @@ var ObjectId = require("mongodb").ObjectID;
 require("dotenv").config();
 
 module.exports.addGroup = async (req, res) => {
-  const { group_name, boundary, privacy } = req.body;
+  const { group_name, boundary, privacy, location } = req.body;
   try {
     const addGroup = await Group.create({
       userId: req.user,
       group_name,
       boundary,
       privacy,
+      location,
     });
     res.status(200).json({ msg: "Group added successfully" });
   } catch (error) {
@@ -80,6 +81,23 @@ module.exports.viewPouplarGroups = async (req, res) => {
       { $sort: { size: -1 } },
     ]);
     return res.status(200).json(viewGroups);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.viewGroupNearMe = async (req, res) => {
+  const { long, lat } = req.body;
+  try {
+    const options = {
+      location: {
+        $geoWithin: {
+          $centerSphere: [[long, lat], 15 / 3963.2],
+        },
+      },
+    };
+    const findGroup = await Group.find(options);
+    return res.status(200).json(findGroup);
   } catch (error) {
     return res.status(500).json({ msg: error.message });
   }
