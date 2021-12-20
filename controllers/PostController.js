@@ -6,15 +6,18 @@ const Notification = require("../models/Notification");
 const User = require("../models/User");
 
 module.exports.addPost = async (req, res) => {
-  const { title, description, tags } = req.body;
+  const { title, description, tags, postType, rangeOfPost, location } =
+    req.body;
   const profileImage = req.file ? req.file.path : null;
-  console.log(req.user);
   try {
     const addPost = await Post.create({
       userId: req.user,
       title,
       description,
       tags,
+      postType,
+      rangeOfPost,
+      location,
       image: profileImage,
     });
     res.status(200).json({ msg: "Post added successfully" });
@@ -233,6 +236,16 @@ module.exports.getNotification = async (req, res) => {
     return res.status(200).json({ get });
   } catch (error) {
     console.log(error);
+  }
+};
+
+module.exports.searchPosts = async (req, res) => {
+  try {
+    var regex = new RegExp(req.params.name, "i");
+    const searchPost = await Post.find({ title: regex });
+    return res.status(200).json(searchPost);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
   }
 };
 

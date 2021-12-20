@@ -103,6 +103,16 @@ module.exports.viewGroupNearMe = async (req, res) => {
   }
 };
 
+module.exports.searchGroups = async (req, res) => {
+  try {
+    var regex = new RegExp(req.params.name, "i");
+    const searchGroup = await Group.find({ group_name: regex });
+    return res.status(200).json(searchGroup);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
 module.exports.home = async (req, res) => {
   const authHeaders = req.headers.authorization;
   const token = authHeaders.split("Bearer ")[1];

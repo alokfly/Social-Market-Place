@@ -33,9 +33,12 @@ const productSchema = new Schema(
     promote: {
       type: String,
     },
+    location: {
+      type: Object,
+      required: true,
+    },
     image: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }

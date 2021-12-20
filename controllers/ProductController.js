@@ -13,6 +13,7 @@ module.exports.addProduct = async (req, res) => {
     category,
     postTo,
     promote,
+    location,
   } = req.body;
 
   try {
@@ -25,6 +26,7 @@ module.exports.addProduct = async (req, res) => {
       category,
       postTo,
       promote,
+      location,
       image: productImage,
     });
     res.status(201).json({ msg: "Product successfully added", addProduct });
@@ -136,5 +138,15 @@ module.exports.viewParticularReport = async (req, res) => {
     return res.status(200).json(viewReport);
   } catch (error) {
     console.log(error);
+  }
+};
+
+module.exports.searchProduct = async (req, res) => {
+  try {
+    var regex = new RegExp(req.params.name, "i");
+    const searchProduct = await Product.find({ title: regex });
+    return res.status(200).json(searchProduct);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
   }
 };

@@ -25,6 +25,7 @@ const {
   getNotification,
   hidePost,
   getAllPosts,
+  searchPosts,
 } = require("../controllers/PostController");
 
 router.post("/addPost", auth, upload.single("myField"), addPost);
@@ -37,5 +38,6 @@ router.get("/viewPost/:page", auth, viewPost);
 router.get("/fetchNotification", auth, fetchNotification);
 router.post("/addNotification", auth, addNotification);
 router.get("/getNotification", auth, getNotification);
+router.get("/searchPosts/:name", auth, searchPosts);
 
 module.exports = router;

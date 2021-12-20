@@ -10,8 +10,20 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    postType: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
+      required: true,
+    },
+    rangeOfPost: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: Object,
       required: true,
     },
     tags: {
@@ -38,7 +50,6 @@ const postSchema = new Schema(
     ],
     image: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
