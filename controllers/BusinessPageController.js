@@ -37,3 +37,12 @@ module.exports.viewBusinessPage = async (req, res) => {
     console.log(error);
   }
 };
+
+module.exports.viewUsersBusiness = async (req, res) => {
+  try {
+    const viewUsersBusiness = await BusinessPage.find({ userId: req.user });
+    res.status(200).json(viewUsersBusiness);
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -150,3 +150,20 @@ module.exports.searchProduct = async (req, res) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+
+module.exports.viewProductNearMe = async (req, res) => {
+  const { long, lat } = req.body;
+  try {
+    const options = {
+      location: {
+        $geoWithin: {
+          $centerSphere: [[long, lat], 15 / 3963.2],
+        },
+      },
+    };
+    const findProduct = await Product.find(options);
+    return res.status(200).json(findProduct);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};

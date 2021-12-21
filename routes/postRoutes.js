@@ -26,6 +26,7 @@ const {
   hidePost,
   getAllPosts,
   searchPosts,
+  feedFilter,
 } = require("../controllers/PostController");
 
 router.post("/addPost", auth, upload.single("myField"), addPost);
@@ -39,5 +40,6 @@ router.get("/fetchNotification", auth, fetchNotification);
 router.post("/addNotification", auth, addNotification);
 router.get("/getNotification", auth, getNotification);
 router.get("/searchPosts/:name", auth, searchPosts);
+router.get("/feedFilter/:type", auth, feedFilter);
 
 module.exports = router;

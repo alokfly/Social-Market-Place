@@ -24,6 +24,7 @@ const {
   viewParticularUser,
   viewLoggedInUser,
   editUser,
+  viewUserNearMe,
 } = require("../controllers/UserController");
 
 router.post(
@@ -39,4 +40,5 @@ router.get("/viewAllUser", auth, viewAllUser);
 router.get("/viewParticularUser/:id", auth, viewParticularUser);
 router.get("/viewLoggedInUser", auth, viewLoggedInUser);
 router.patch("/editUser", upload.single("myField"), auth, editUser);
+router.post("/viewUserNearMe", auth, viewUserNearMe);
 module.exports = router;

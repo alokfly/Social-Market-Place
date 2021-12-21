@@ -33,6 +33,9 @@ const groupSchema = new Schema(
       type: Object,
       required: true,
     },
+    image: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

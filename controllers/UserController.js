@@ -22,7 +22,8 @@ module.exports.registerValiations = [
 ];
 module.exports.register = async (req, res) => {
   const profileImage = req.file ? req.file.filename : null;
-  const { name, nickname, email, password, address, mobile } = req.body;
+  const { name, nickname, email, password, address, mobile, location } =
+    req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -45,6 +46,7 @@ module.exports.register = async (req, res) => {
         password: hash,
         address,
         mobile,
+        location,
         image: profileImage,
       });
       const token = createToken(user);
@@ -207,6 +209,23 @@ module.exports.editUser = async (req, res) => {
       }
     );
     return res.status(200).json({ msg: "user successfully edited", editUser });
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.viewUserNearMe = async (req, res) => {
+  const { long, lat } = req.body;
+  try {
+    const options = {
+      location: {
+        $geoWithin: {
+          $centerSphere: [[long, lat], 15 / 3963.2],
+        },
+      },
+    };
+    const findUsers = await User.find(options);
+    return res.status(200).json(findUsers);
   } catch (error) {
     return res.status(500).json({ msg: error.message });
   }

@@ -249,6 +249,16 @@ module.exports.searchPosts = async (req, res) => {
   }
 };
 
+module.exports.feedFilter = async (req, res) => {
+  try {
+    var regex = new RegExp(req.params.type, "i");
+    const filterPost = await Post.find({ postType: regex });
+    return res.status(200).json(filterPost);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
 module.exports.countComments = async (req, res) => {
   try {
   } catch (error) {

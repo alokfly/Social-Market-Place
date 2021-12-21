@@ -5,6 +5,7 @@ var ObjectId = require("mongodb").ObjectID;
 require("dotenv").config();
 
 module.exports.addGroup = async (req, res) => {
+  const groupImage = req.file ? req.file.path : null;
   const { group_name, boundary, privacy, location } = req.body;
   try {
     const addGroup = await Group.create({
@@ -13,6 +14,7 @@ module.exports.addGroup = async (req, res) => {
       boundary,
       privacy,
       location,
+      image: groupImage,
     });
     res.status(200).json({ msg: "Group added successfully" });
   } catch (error) {
@@ -62,7 +64,7 @@ module.exports.viewJoinedGroup = async (req, res) => {
   const viewUserJoinedGroup = await User.findOne({
     _id: ObjectId(req.user),
   })
-    .populate("groudJoined", "group_name")
+    .populate("groudJoined")
     .exec();
   res.status(200).json(viewUserJoinedGroup);
 };
@@ -108,6 +110,15 @@ module.exports.searchGroups = async (req, res) => {
     var regex = new RegExp(req.params.name, "i");
     const searchGroup = await Group.find({ group_name: regex });
     return res.status(200).json(searchGroup);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
+module.exports.viewUsersGroup = async (req, res) => {
+  try {
+    const viewUsersGroup = await Group.find({ userId: req.user });
+    return res.status(200).json(viewUsersGroup);
   } catch (error) {
     return res.status(500).json({ msg: error.message });
   }
